@@ -1,6 +1,6 @@
 # Statistical pipelines in R
 
-Examples of how I build data processing pipelines for official statistics and financial data: reading
+Simplified general examples of how I build data processing pipelines for official statistics and financial data: reading
 and checking data from many reporting units, feedback to the units, and reproducible outputs.
 Each folder is a self-contained project with its own README, configuration, synthetic or public data
 and tests.
