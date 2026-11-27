@@ -1,0 +1,17 @@
+# Run settings. Paths are relative to the module folder.
+
+periods: ["2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03"]
+report_period: ""          # period for feedback files and letters; empty = last period
+
+paths:
+  input: data/input
+  output: output
+
+tolerance:
+  unit_total: 1            # EUR; unit total vs sum of its establishments
+  reconciliation: 0.01     # EUR; input vs processed totals (stop if exceeded)
+
+letters:
+  date: ""                 # letter date as dd.mm.yyyy; empty = today
+  reply_days: 15
+  records_listed_max: 5    # record ids are listed in the letter up to this number, otherwise only in the annex

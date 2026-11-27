@@ -1,0 +1,52 @@
+# Where each table sits in each published workbook. The reader finds the row of column codes
+# (the row whose cell in code_col says "Code"; for stacked tables, the first such row after the title),
+# takes column codes from first_col onwards and row codes from code_col, and stops at the next title
+# or after `stop_blank` empty rows. Nothing else about the layout is hard-coded.
+#
+# table ids follow the ESA 2010 transmission programme: T1500 supply at basic prices, T1600 use at
+# purchasers' prices, T1610 use at basic prices, T1611 use of domestic output, T1612 use of imports,
+# T1700/T1800 symmetric input-output tables (total / domestic), product x product.
+
+sources:
+
+  eiz_2013:
+    publisher: "Institute of Economics, Zagreb"
+    url: "https://www.eizg.hr/UserDocsImages/publikacije/knjige/tablice_ponude_uporabe_2013.xlsx"
+    file: tablice_ponude_uporabe_2013.xlsx
+    geo: HR
+    time_period: "2013"
+    unit: THS_HRK              # thousand kuna (same magnitude as the CBS tables, which state it)
+    code_col: 2
+    first_col: 4
+    stop_blank: 4               # employment (EMP) comes after three empty rows
+    recode:                    # regular expressions applied to row codes
+      "^KPD_": "CPA_"
+      "^KPA_": "CPA_"
+    drop_codes: ["0"]          # placeholder rows in the source
+    tables:
+      T1500: {sheet: ponuda2013, stk_flow: TOTAL}
+      T1600: {sheet: uporaba2013kupovne, stk_flow: TOTAL}
+      T1610: {sheet: uporaba2013bazicne, stk_flow: TOTAL}
+      T1611: {sheet: uporaba2013domaca, stk_flow: DOM}
+      T1612: {sheet: uporaba2013uvozna, stk_flow: IMP}
+
+  dzs_2010:
+    publisher: "Croatian Bureau of Statistics"
+    url: "https://web.dzs.hr/Hrv_Eng/publication/2015/12-01-04_01_2015.xlsx"
+    file: 12-01-04_01_2015.xlsx
+    geo: HR
+    time_period: "2010"
+    unit: THS_HRK
+    code_col: 1
+    first_col: 3
+    stop_blank: 1
+    recode: {}
+    drop_codes: []
+    tables:
+      T1500: {sheet: "Table data english", title: "^1500 - ", stk_flow: TOTAL}
+      T1600: {sheet: "Table data english", title: "^1600 - ", stk_flow: TOTAL}
+      T1610: {sheet: "Table data english", title: "^1610 - ", stk_flow: TOTAL}
+      T1611: {sheet: "Table data english", title: "^1611 - ", stk_flow: DOM}
+      T1612: {sheet: "Table data english", title: "^1612 - ", stk_flow: IMP}
+      T1700: {sheet: "Table data english", title: "^1700 - ", stk_flow: TOTAL}
+      T1800: {sheet: "Table data english", title: "^1800 - ", stk_flow: DOM}

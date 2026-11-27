@@ -1,0 +1,12 @@
+# Letter texts. {unit_name}, {period_text}, {reply_days} and {date} are filled in.
+# The same issue always produces the same sentence (rules.yml, field letter).
+
+sender: "Statistical Office – Data Quality Unit"
+subject: "Monthly business survey: data quality, {period_text}"
+opening: "Dear Sir or Madam,"
+intro_one: "When processing the monthly returns of {unit_name} for {period_text}, we found that"
+intro_more: "When processing the monthly returns of {unit_name} for {period_text}, we found the following:"
+annex: "The records concerned are listed in the attached Excel file."
+request: "Please check the data and send corrected returns or an explanation within {reply_days} days of receiving this letter."
+closing: "Kind regards,"
+signature: "Data Quality Unit"

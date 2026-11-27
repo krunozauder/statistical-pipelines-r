@@ -1,0 +1,8 @@
+code,label
+T1500,"Supply table at basic prices, including a transformation into purchasers' prices"
+T1600,Use table at purchasers' prices
+T1610,Use table at basic prices
+T1611,Use table for domestic output at basic prices
+T1612,Use table for imports at basic prices
+T1700,"Symmetric input-output table at basic prices (product x product)"
+T1800,"Symmetric input-output table for domestic output (product x product)"

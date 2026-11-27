@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title"></h1>
+  <div class="controls">
+    <label>Wave <select id="wave"></select></label>
+    <label>Compare with <select id="wave2"></select></label>
+    <label>Numbers <select id="fmt"><option value="en">1,234.5</option><option value="hr">1.234,5</option></select></label>
+  </div>
+</header>
+<main>
+  <section id="tiles"></section>
+  <section><h2>Summary by wave</h2><div class="tbl" id="t_summary"></div></section>
+  <section><h2>Lorenz curve</h2><div id="lorenz"></div></section>
+  <section><h2>Households and income by class</h2><div class="tbl" id="t_classes"></div></section>
+  <section><h2>Income deciles</h2><div class="tbl" id="t_deciles"></div></section>
+  <section><h2>Regions</h2><div class="tbl" id="t_regions"></div></section>
+  <section><h2 id="h_trans">Movement between deciles</h2><p id="trans_text"></p><div class="tbl" id="t_trans"></div></section>
+  <footer id="notes"></footer>
+</main>
+<script>
+const D = {{DATA}};
+{{JS}}
+</script>
+</body>
+</html>

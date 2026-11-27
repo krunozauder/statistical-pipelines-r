@@ -1,0 +1,14 @@
+# Text of the release. Placeholders in {} are filled from the same calculation as the tables,
+# so text, tables and charts always agree. Numbers are formatted in R/04_text.R.
+
+title: "Distribution of household income, {wave}"
+
+paragraphs:
+  - "In {wave}, the median equivalised disposable income was EUR {median}, {median_change} than in {prev_wave}. The mean was EUR {mean}, above the median because incomes are concentrated at the top of the distribution."
+  - "The richest 10% of households received {top10} of total equivalised income and the poorest half {bottom50}. The Gini coefficient was {gini} ({gini_prev} in {prev_wave})."
+  - "{poor_share} of households had equivalised income below the at-risk-of-poverty threshold of EUR {poverty_line} (60% of the median)."
+  - "Of the households observed in both waves, {stayed} stayed in the same income decile, {moved_up} moved to a higher and {moved_down} to a lower decile."
+
+notes:
+  source: "Source: synthetic household panel (fictional data)."
+  definition: "Equivalised income: household disposable income divided by the OECD-modified equivalence scale. Shares and quantiles are weighted with household weights."

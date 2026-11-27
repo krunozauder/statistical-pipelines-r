@@ -1,0 +1,29 @@
+# Report texts. Empty "" = element not shown. {quarter}, {n_breach} and similar are filled in.
+title: "Report on borrower-based limits"
+subtitle: "{quarter_text}"
+source: "Source: synthetic loan-level data (fictional lenders)."
+
+overview:
+  heading: "Overview"
+  all_ok: "All lenders complied with the limits in the {quarter_text}."
+  breaches: "{n_breach} of {n_lenders} lenders did not comply with at least one limit in the {quarter_text}."
+  note: "Colour: utilisation of the allowance (share of new lending above the ratio limits divided by the allowance); a red frame marks utilisation above 100% or loans above the maximum maturity."
+
+figures:
+  overview: "Utilisation of allowances and maturity limits by lender, {quarter_text}"
+  above_below: "New lending above and below the ratio limits"
+  utilisation: "Share of new lending above the ratio limits and the allowance"
+  distribution: "New lending by DSTI and LTV class"
+  momentum: "Annual growth of new lending and contributions of lenders"
+  lender_util: "{lender}: share of new lending above the ratio limits"
+  lender_dist: "{lender}: new lending by DSTI and LTV class, {quarter_text}"
+
+tables:
+  system: "Indicators for all lenders"
+  lender: "{lender}: indicators"
+
+notes:
+  utilisation: "The allowance is the share of new lending in a quarter that may exceed the LTV or DSTI limit; it is shown as a line. Limits as valid in each quarter."
+  distribution: "Shares of the volume of new loans; loans whose ratio cannot be computed are shown separately."
+  momentum: "Change in the volume of new lending from the same quarter of the previous year; bars show the contribution of each lender."
+  averages: "Averages are weighted by loan amount and exclude implausible values (DSTI outside 1–100%, LTV above 200%)."

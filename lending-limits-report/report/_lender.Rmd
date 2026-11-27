@@ -1,0 +1,15 @@
+\newpage
+
+# `r l`
+
+```{r, fig.height = 2.3, fig.cap = fill(TXT$figures$lender_util, list(lender = l))}
+g_utilisation(l)
+```
+
+```{r, fig.height = 2.3, fig.cap = fill(TXT$figures$lender_dist, list(lender = l, quarter_text = QT))}
+g_distribution(l)
+```
+
+```{r}
+kt(indicator_table(l), fill(TXT$tables$lender, list(lender = l)))
+```

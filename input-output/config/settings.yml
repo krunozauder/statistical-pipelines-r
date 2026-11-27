@@ -1,0 +1,20 @@
+# Run settings. Paths are relative to the module folder.
+
+sources: [eiz_2013, dzs_2010]     # see layouts.yml
+analysis_source: eiz_2013          # tables used for the symmetric tables and the impact tool
+iot_models: [B, D, A]              # Eurostat Manual (2008) models: A product technology, B industry technology
+                                   # (both product x product), D fixed product sales structure (industry x industry)
+final_uses: [P3_S14, P3_S15, P3_S13, P51, P52_P53, P6]   # final-use columns kept in the symmetric tables
+primary_inputs: [D21_M_D31, D1, D29_M_D39, B2G_B3G, B1G]  # rows below intermediate use (from T1610)
+
+impact:                            # impact tool (step 05)
+  model: B                         # symmetric table used for the Leontief inverse (product x product)
+  scenarios_file: scenarios.xlsx   # in data/input; sheet final_demand: code, product, one column per scenario
+  import_split_column: P51         # import share of each product taken from this final-use column (T1612 / T1610)
+  type2: true                      # also households endogenous (induced effects)
+
+paths:
+  input: data/input
+  output: output
+tolerance:
+  balance: 1                       # thousand HRK; supply = use, output and value-added identities

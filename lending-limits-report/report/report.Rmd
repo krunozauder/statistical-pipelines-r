@@ -1,0 +1,80 @@
+---
+title: "`r TXT$title`"
+subtitle: "`r cap(fill(TXT$subtitle, list(quarter_text = quarter_text(RES$report_quarter))))`"
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{float}
+  - \floatplacement{figure}{H}
+  - \usepackage{caption}
+  - \captionsetup{font=small,labelfont=bf,justification=raggedright,singlelinecheck=false}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6.7, fig.height = 3, out.width = "100%", fig.path = "figure/")
+library(knitr); library(kableExtra)
+QT <- quarter_text(RES$report_quarter)
+note <- function(key) cat("\\footnotesize Note: ", TXT$notes[[key]] %||% "", " ", TXT$source, "\\normalsize\n\n", sep = "")
+kt <- function(d, caption) {
+  kbl(d %>% select(-category), booktabs = TRUE, caption = caption, align = c("l", rep("r", ncol(d) - 2))) %>%
+    kable_styling(latex_options = c("HOLD_position", "scale_down"), font_size = 7) %>%
+    pack_rows(index = table(factor(d$category, levels = unique(d$category))))
+}
+ov <- RES$ind %>% filter(quarter == RES$report_quarter, lender != SYSTEM) %>% group_by(lender) %>%
+  summarise(b = any(breach_allowance | breach_maturity))
+```
+
+# `r TXT$overview$heading`
+
+`r if (sum(ov$b) == 0) fill(TXT$overview$all_ok, list(quarter_text = QT)) else fill(TXT$overview$breaches, list(n_breach = sum(ov$b), n_lenders = nrow(ov), quarter_text = QT))`
+
+```{r overview, fig.height = 3.6, fig.cap = fill(TXT$figures$overview, list(quarter_text = QT))}
+g_overview()
+```
+
+```{r, results = "asis"}
+cat("\\footnotesize Note: ", TXT$overview$note, " ", TXT$source, "\\normalsize\n\n", sep = "")
+```
+
+# All lenders
+
+```{r above, fig.cap = TXT$figures$above_below}
+g_above_below()
+```
+
+```{r utilisation, fig.cap = TXT$figures$utilisation}
+g_utilisation()
+```
+
+```{r, results = "asis"}
+note("utilisation")
+```
+
+```{r distribution, fig.cap = fill(TXT$figures$distribution, list())}
+g_distribution()
+```
+
+```{r, results = "asis"}
+note("distribution")
+```
+
+```{r momentum, fig.cap = TXT$figures$momentum}
+g_momentum()
+```
+
+```{r, results = "asis"}
+note("momentum")
+```
+
+```{r system-table}
+kt(indicator_table(), TXT$tables$system)
+```
+
+```{r, results = "asis"}
+note("averages")
+```
+
+```{r lenders, results = "asis"}
+for (l in RES$lenders) {
+  cat(knit_child("_lender.Rmd", envir = environment(), quiet = TRUE), sep = "\n")
+}
+```

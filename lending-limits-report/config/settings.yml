@@ -1,0 +1,7 @@
+# Run settings. Paths are relative to the module folder.
+report_quarter: ""        # e.g. "2026Q2"; empty = last complete quarter in the data
+quarters_shown: 8         # quarters on charts and in tables
+paths: {data: data, output: output}
+report_format: auto       # pdf (needs XeLaTeX), html, or auto = pdf if XeLaTeX is found, otherwise html
+font: ""                  # font of the PDF report; empty = Arial on Windows, the LaTeX default elsewhere
+tolerance: 0.5            # EUR; lender totals vs system and input vs processed volume

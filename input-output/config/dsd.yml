@@ -1,0 +1,15 @@
+# Data structure of the output, in SDMX terms. The dimension names follow the Eurostat input-output
+# datasets (prod_na = row, induse = column, stk_flow = total / domestic / imports).
+
+dataflow: {agency: KZAUDER, id: SUT_IOT, version: "1.0", name: "Supply, use and input-output tables"}
+dimensions:
+  - {id: TABLE_IDENTIFIER, codelist: table_identifier}
+  - {id: STK_FLOW,         codelist: stk_flow}
+  - {id: PROD_NA,          codelist: prod_na}
+  - {id: INDUSE,           codelist: induse}
+  - {id: REF_AREA}
+  - {id: TIME_PERIOD}
+attributes:
+  - {id: UNIT_MEASURE}
+  - {id: UNIT_MULT}
+measure: OBS_VALUE

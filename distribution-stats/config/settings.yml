@@ -1,0 +1,21 @@
+# Run settings. Paths are relative to the module folder.
+
+waves: ["2024", "2025"]
+report_wave: ""                  # wave for the text and the main tables; empty = last wave
+
+paths:
+  input: data/input
+  output: output
+
+# equivalised income = household income / (1 + 0.5 x (adults - 1) + 0.3 x children)  (OECD-modified scale)
+equivalence: {first_adult: 1, other_adult: 0.5, child: 0.3}
+
+# income classes, EUR per year of equivalised income (lower bounds; last class is open)
+classes: [0, 5000, 10000, 15000, 20000, 30000, 50000]
+top_shares: [0.10, 0.05, 0.01]
+poverty_line: 0.6                # share of the median equivalised income
+
+tolerance:                        # for the comparison with published figures (after rounding as published)
+  eur: 1
+  pct: 0.05                       # percentage points
+  count: 0

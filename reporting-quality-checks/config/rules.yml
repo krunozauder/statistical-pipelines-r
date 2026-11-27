@@ -1,0 +1,113 @@
+# Validation rules.
+#
+# level        record: checked for every establishment record; unit: checked once per unit and period
+# applies_to   which records form the base of the rule (R expression)
+# check        TRUE = the record fails the rule (R expression, evaluated within the base)
+# threshold    a unit is flagged when the share of failing records in its base is above this value ...
+# min_records  ... and at least this many records fail ...
+# vs_total     ... and (if set) its share is above vs_total x the share for all units together
+# versions     a rule may change over time; the version valid for the period is used
+# letter       text for the letter; {n}, {base}, {share} and {ids} are filled in
+#
+# Columns prepared before the checks: prev_turnover (same establishment, previous period),
+# nace_register (activity code in the register), duplicate (establishment reported more than once),
+# turnover_sum / employees_sum (sums of establishments, unit level).
+
+rules:
+
+  R01:
+    name: Missing turnover
+    level: record
+    applies_to: "TRUE"
+    check: "is.na(turnover)"
+    threshold: 0
+    min_records: 1
+    letter: "turnover is missing for {n} of {base} establishment records ({share})"
+
+  R02:
+    name: Negative value
+    level: record
+    applies_to: "TRUE"
+    check: "(turnover < 0 | exports < 0 | employees < 0 | hours_worked < 0 | gross_wages < 0) %in% TRUE"
+    threshold: 0
+    min_records: 1
+    letter: "negative values are reported in {n} establishment records ({ids})"
+
+  R03:
+    name: Exports above turnover
+    level: record
+    applies_to: "!is.na(turnover) & !is.na(exports)"
+    check: "exports > turnover"
+    threshold: 0
+    min_records: 1
+    letter: "exports exceed turnover in {n} of {base} establishment records ({share})"
+
+  R04:
+    name: Implausible hours per employee
+    level: record
+    applies_to: "employees > 0 & !is.na(hours_worked)"
+    check: "hours_worked / employees < 40 | hours_worked / employees > 250"
+    threshold: 0.05
+    min_records: 2
+    vs_total: 2
+    letter: "monthly hours worked per employee are below 40 or above 250 in {n} of {base} records ({share})"
+
+  R05:
+    name: Wage per employee below the minimum wage
+    level: record
+    applies_to: "employees > 0 & !is.na(gross_wages) & gross_wages > 0"
+    threshold: 0.05
+    min_records: 2
+    versions:
+      - valid_from: 2025-01-01
+        valid_to: 2025-12-31
+        check: "gross_wages / employees < 900"
+        letter: "the average gross wage per employee is below the minimum wage of EUR 900 in {n} of {base} records ({share})"
+      - valid_from: 2026-01-01
+        valid_to: ""
+        check: "gross_wages / employees < 1000"
+        letter: "the average gross wage per employee is below the minimum wage of EUR 1,000 (from 1 January 2026) in {n} of {base} records ({share})"
+
+  R06:
+    name: Employees without wages
+    level: record
+    applies_to: "employees > 0"
+    check: "is.na(gross_wages) | gross_wages == 0"
+    threshold: 0
+    min_records: 1
+    letter: "employees are reported without wages in {n} establishment records ({ids})"
+
+  R07:
+    name: Large change from the previous period
+    level: record
+    applies_to: "!is.na(turnover) & !is.na(prev_turnover) & prev_turnover > 0"
+    check: "turnover / prev_turnover > 4 | turnover / prev_turnover < 0.25"
+    threshold: 0.10
+    min_records: 2
+    vs_total: 2
+    letter: "turnover changed by more than a factor of four from the previous month in {n} of {base} records ({share}); please confirm or correct"
+
+  R08:
+    name: Unit total differs from the sum of establishments
+    level: unit
+    applies_to: "TRUE"
+    check: "abs(turnover_sum - turnover_total) > TOL_UNIT | abs(employees_sum - employees_total) > 0.5"
+    letter: "the totals reported for the unit (turnover EUR {turnover_total}, {employees_total} employees) differ from the sum of its establishments (EUR {turnover_sum}, {employees_sum} employees)"
+
+  R09:
+    name: Activity code differs from the register
+    level: record
+    applies_to: "!is.na(nace_register)"
+    check: "nace != nace_register"
+    threshold: 0
+    min_records: 1
+    letter: "the activity code differs from the business register in {n} establishment records ({ids})"
+
+  R10:
+    name: Duplicate establishment record
+    level: record
+    applies_to: "TRUE"
+    check: "duplicate"
+    threshold: 0
+    min_records: 1
+    letter: "{n} establishment records are reported more than once ({ids})"

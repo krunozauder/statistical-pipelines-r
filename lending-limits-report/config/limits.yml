@@ -1,0 +1,28 @@
+# Borrower-based limits monitored in the report. The values are illustrative.
+#
+# For each loan category: maximum loan-to-value (LTV) and debt-service-to-income (DSTI) ratios,
+# maximum maturity, and the allowance – the share of new lending in a quarter that may exceed the
+# ratio limits. Loans above the maximum maturity are not covered by the allowance.
+# A new version applies from its valid_from date; every quarter is assessed under the version valid then.
+
+categories:
+  housing:  "Housing loans"
+  consumer: "Consumer loans"
+
+versions:
+  - valid_from: 2024-01-01
+    valid_to: 2025-12-31
+    housing:  {ltv: 0.85, dsti: 0.40, maturity_years: 35, allowance: 0.15}
+    consumer: {ltv: null, dsti: 0.35, maturity_years: 8,  allowance: 0.10}
+  - valid_from: 2026-01-01
+    valid_to: ""
+    housing:  {ltv: 0.85, dsti: 0.40, maturity_years: 35, allowance: 0.10}
+    consumer: {ltv: null, dsti: 0.35, maturity_years: 7,  allowance: 0.05}
+
+# averages of the ratios exclude implausible values (they stay in all other indicators)
+average_bounds: {dsti: [0.01, 1.00], ltv: [0.00, 2.00]}
+min_income: 100          # monthly income below this: ratio not computable
+
+classes:
+  dsti: [0, 0.20, 0.30, 0.35, 0.40, 0.50]
+  ltv:  [0, 0.60, 0.75, 0.85, 1.00]
